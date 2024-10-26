@@ -1,33 +1,9 @@
 
 # KeyOverlay
- A simple key overlay for osu! streaming
+Awesome edit that makes it an actual overlay rather than a bordered window
+(need to change config to move it sorry)
  
- If you're interested in per key coloring and custom width for your keys please check out [Friedchiken-42's version](https://github.com/Friedchicken-42/KeyOverlay) better suited for mania.
- 
-To change the keys used please use config.txt
-# [Download Link](https://github.com/Blondazz/KeyOverlay/releases/latest)
-IF YOU ARE HAVING PROBLEMS WITH THE PROGRAM WHEN OSU! IS ON FULLSCREEN, TRY USING GAME CAPTURE INSTEAD OF WINDOW CAPTURE IN OBS!
-
-# MacOS
-
-## Setup
-
-1. Unzip `KeyOverlay-macos-latest.zip` into a folder.
-2. Double click the KeyOverlay file or Using the terminal cd inside the unzipped folder and run `KeyOverlay` in terminal (`./KeyOverlay`).
-3. Allow the terminal `Input Monitoring` permission.
-
-# Linux
-
-## Setup
-
-1. Unzip `KeyOverlay-ubuntu-latest.zip` into a folder.
-2. cd into the unzipped folder
-3. make `KeyOverlay` executable using `chmod`
-4. run `KeyOverlay` in terminal (`KeyOverlay`)
-
-## Note
-
-If you get an error similar to `System.DllNotFoundException: Unable to load shared library 'csfml-system'`, install the packages that you are missing using your distribution's package manager. Any issues created related to this issue will be automatically closed.
+![]([https://puu.sh/I6Kg1/4ff86be176.gif](https://cdn.discordapp.com/attachments/1158460133018448013/1299534745495142465/overlay_comparison.mov?ex=671d8d8b&is=671c3c0b&hm=6a2d3f84167dd6f097c2bff22bfe10df66eb74ad3667652ef2b3140e74b83110&))
 
 # config.txt properties
 keyAmount - The amount of keys in the program (see the readme.txt for recommended widths for certain keyAmounts).
@@ -39,6 +15,8 @@ displayKey1, displayKey2 - If the name of the key you are using is too large, or
 keyCounter - yes/no - Adds a keycounter beneath each key that counts total clicks in a session.
 
 windowHeight, windowWidth - Used to change the resolution of the program.
+
+windowPosX, windowPosY - Use to change the position of the overlay
 
 keySize - Changes the size of the key (excluding border).
 
@@ -60,6 +38,5 @@ maxFPS - Sets the target FPS for the program to run
 
 ![](https://puu.sh/I6Kg1/4ff86be176.gif)
 
-based on a similar app by an unknown author (if you are the author dm me so I can credit you)
 
 
