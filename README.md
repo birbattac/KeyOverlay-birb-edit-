@@ -1,10 +1,9 @@
 
 # KeyOverlay
- A simple key overlay for osu! streaming
+Awesome edit that makes it an actual overlay rather than a bordered window
+(need to change config to move it sorry)
  
- If you're interested in per key coloring and custom width for your keys please check out [Friedchiken-42's version](https://github.com/Friedchicken-42/KeyOverlay) better suited for mania.
- 
-To change the keys used please use config.txt
+![]([https://puu.sh/I6Kg1/4ff86be176.gif](https://cdn.discordapp.com/attachments/1158460133018448013/1299534745495142465/overlay_comparison.mov?ex=671d8d8b&is=671c3c0b&hm=6a2d3f84167dd6f097c2bff22bfe10df66eb74ad3667652ef2b3140e74b83110&))
 
 # config.txt properties
 keyAmount - The amount of keys in the program (see the readme.txt for recommended widths for certain keyAmounts).
@@ -16,6 +15,8 @@ displayKey1, displayKey2 - If the name of the key you are using is too large, or
 keyCounter - yes/no - Adds a keycounter beneath each key that counts total clicks in a session.
 
 windowHeight, windowWidth - Used to change the resolution of the program.
+
+windowPosX, windowPosY - Use to change the position of the overlay
 
 keySize - Changes the size of the key (excluding border).
 
