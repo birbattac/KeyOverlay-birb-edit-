@@ -39,9 +39,5 @@ backgroundImage - Lets you set a background. Put the image into Resources direct
 
 maxFPS - Sets the target FPS for the program to run
 
-# GIF Preview
-
-![](https://puu.sh/I6Kg1/4ff86be176.gif)
-
 
 
