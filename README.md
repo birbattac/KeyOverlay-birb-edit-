@@ -3,7 +3,10 @@
 Awesome edit that makes it an actual overlay rather than a bordered window
 (need to change config to move it sorry)
  
-![]([https://puu.sh/I6Kg1/4ff86be176.gif](https://cdn.discordapp.com/attachments/1158460133018448013/1299534745495142465/overlay_comparison.mov?ex=671d8d8b&is=671c3c0b&hm=6a2d3f84167dd6f097c2bff22bfe10df66eb74ad3667652ef2b3140e74b83110&))
+![]()![2024-10-25_19-35-57-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/b7c53d8b-0a1a-471a-90b2-f6c4628fba5a)
+
+(full desktop video no obs overlay required)
+
 
 # config.txt properties
 keyAmount - The amount of keys in the program (see the readme.txt for recommended widths for certain keyAmounts).
@@ -20,6 +23,8 @@ windowPosX, windowPosY - Use to change the position of the overlay
 
 keySize - Changes the size of the key (excluding border).
 
+keyPressShrinkMult - Changes how much smaller the keys get on press
+
 barSpeed - Adjusts the speed at which the bars are travelling upwards.
 
 margin - Adjusts the margin of the keys from the sides.
@@ -33,10 +38,6 @@ backgroundColor, keyColor, PressFontColor, borderColor, barColor, fontColor - Ch
 backgroundImage - Lets you set a background. Put the image into Resources directory and then put the filename into this property ex. "bg.png" (without the quote symbols). Makes sure the background is the same resolution as your window and if you want transparency on your background you have to put the transparency on the image itself.
 
 maxFPS - Sets the target FPS for the program to run
-
-# GIF Preview
-
-![](https://puu.sh/I6Kg1/4ff86be176.gif)
 
 
 
