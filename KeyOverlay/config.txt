@@ -16,6 +16,7 @@ windowWidth=400
 windowPosX=200
 windowPosY=200
 keySize=70
+keyPressShrinkMult=0.9
 barSpeed=600
 margin=25
 outlineThickness=5

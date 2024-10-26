@@ -105,7 +105,7 @@ namespace KeyOverlay
             var keySize = int.Parse(config["keySize"]);
             defaultBorderColor = outlineColor;
             defaultKeySize = keySize;
-            minKeySize = (int)(keySize * 0.9);
+            minKeySize = (int)(keySize * float.Parse(config["keyPressShrinkMult"]));
             var margin = int.Parse(config["margin"]);
             _squareList = CreateItems.CreateKeys(keyAmount, _outlineThickness, keySize, _ratioX, _ratioY, margin,
                 _window, _keyBackgroundColor, outlineColor);
