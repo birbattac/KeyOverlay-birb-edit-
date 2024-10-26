@@ -7,6 +7,14 @@ Awesome edit that makes it an actual overlay rather than a bordered window
 
 (full desktop video no obs overlay required)
 
+awesome epic comparison video yes yes good
+
+
+
+https://github.com/user-attachments/assets/4e64e912-0aff-4ff0-986a-bb7ebdeb8585
+
+
+
 # config.txt properties
 keyAmount - The amount of keys in the program (see the readme.txt for recommended widths for certain keyAmounts).
 
