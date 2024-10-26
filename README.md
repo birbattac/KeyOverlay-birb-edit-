@@ -5,7 +5,7 @@ Awesome edit that makes it an actual overlay rather than a bordered window
  
 ![]()![2024-10-25_19-35-57-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/b7c53d8b-0a1a-471a-90b2-f6c4628fba5a)
 
-(full desktop video no obs overlay required)
+-# (full desktop video no obs overlay required)
 
 # config.txt properties
 keyAmount - The amount of keys in the program (see the readme.txt for recommended widths for certain keyAmounts).
