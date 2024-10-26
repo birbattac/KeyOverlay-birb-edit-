@@ -41,8 +41,9 @@ namespace KeyOverlay
         private Clock _clock = new();
         public int defaultKeySize;
         public int minKeySize;
-        public Color defaultBorderColor; 
-
+        public Color defaultBorderColor;
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
         public AppWindow(string configFileName)
         {
             instance = this;
@@ -66,6 +67,8 @@ namespace KeyOverlay
                 hRgnBlur = DWM.CreateRectRgn(0, 0, -1, -1)
             };
             DWM.DwmEnableBlurBehindWindow(_window.SystemHandle, ref bb);
+
+            SetWindowLong(_window.SystemHandle, -20, 0x00080000| (uint)0x00000020);
 
             _barSpeed = float.Parse(config["barSpeed"], CultureInfo.InvariantCulture);
             _outlineThickness = int.Parse(config["outlineThickness"]);
