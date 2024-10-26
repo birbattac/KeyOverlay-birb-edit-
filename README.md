@@ -5,29 +5,6 @@
  If you're interested in per key coloring and custom width for your keys please check out [Friedchiken-42's version](https://github.com/Friedchicken-42/KeyOverlay) better suited for mania.
  
 To change the keys used please use config.txt
-# [Download Link](https://github.com/Blondazz/KeyOverlay/releases/latest)
-IF YOU ARE HAVING PROBLEMS WITH THE PROGRAM WHEN OSU! IS ON FULLSCREEN, TRY USING GAME CAPTURE INSTEAD OF WINDOW CAPTURE IN OBS!
-
-# MacOS
-
-## Setup
-
-1. Unzip `KeyOverlay-macos-latest.zip` into a folder.
-2. Double click the KeyOverlay file or Using the terminal cd inside the unzipped folder and run `KeyOverlay` in terminal (`./KeyOverlay`).
-3. Allow the terminal `Input Monitoring` permission.
-
-# Linux
-
-## Setup
-
-1. Unzip `KeyOverlay-ubuntu-latest.zip` into a folder.
-2. cd into the unzipped folder
-3. make `KeyOverlay` executable using `chmod`
-4. run `KeyOverlay` in terminal (`KeyOverlay`)
-
-## Note
-
-If you get an error similar to `System.DllNotFoundException: Unable to load shared library 'csfml-system'`, install the packages that you are missing using your distribution's package manager. Any issues created related to this issue will be automatically closed.
 
 # config.txt properties
 keyAmount - The amount of keys in the program (see the readme.txt for recommended widths for certain keyAmounts).
@@ -60,6 +37,5 @@ maxFPS - Sets the target FPS for the program to run
 
 ![](https://puu.sh/I6Kg1/4ff86be176.gif)
 
-based on a similar app by an unknown author (if you are the author dm me so I can credit you)
 
 
