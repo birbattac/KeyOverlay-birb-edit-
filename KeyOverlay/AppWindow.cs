@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Formats.Asn1;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using static KeyOverlay.DWM;
+using Color = SFML.Graphics.Color;
+
 
 namespace KeyOverlay
 {
     public class AppWindow
     {
+        public static AppWindow instance;
+
         private readonly RenderWindow _window;
         private readonly List<Key> _keyList = new();
         private readonly List<RectangleShape> _squareList;
@@ -31,26 +39,41 @@ namespace KeyOverlay
         private readonly List<Text> _keyText = new();
         private readonly uint _maxFPS;
         private Clock _clock = new();
-
+        public int defaultKeySize;
+        public int minKeySize;
+        public Color defaultBorderColor; 
 
         public AppWindow(string configFileName)
         {
+            instance = this;
             var config = ReadConfig(configFileName);
             var windowWidth = config["windowWidth"];
             var windowHeight = config["windowHeight"];
+            var windowPosX = config["windowPosX"];
+            var windowPosY = config["windowPosY"];
             _window = new RenderWindow(new VideoMode(uint.Parse(windowWidth!), uint.Parse(windowHeight!)),
-                "KeyOverlay", Styles.Default);
+                "KeyOverlay", Styles.None);
 
             //calculate screen ratio relative to original program size for easy resizing
             _ratioX = float.Parse(windowWidth) / 480f;
             _ratioY = float.Parse(windowHeight) / 960f;
+            _window.Position = new Vector2i(int.Parse(windowPosX), int.Parse(windowPosY));
+
+            DWM_BLURBEHIND bb = new DWM_BLURBEHIND
+            {
+                dwFlags = DWM_BB.Enable | DWM_BB.BlurRegion,
+                fEnable = true,
+                hRgnBlur = DWM.CreateRectRgn(0, 0, -1, -1)
+            };
+            DWM.DwmEnableBlurBehindWindow(_window.SystemHandle, ref bb);
 
             _barSpeed = float.Parse(config["barSpeed"], CultureInfo.InvariantCulture);
             _outlineThickness = int.Parse(config["outlineThickness"]);
-            _backgroundColor = CreateItems.CreateColor(config["backgroundColor"]);
+            _backgroundColor = CreateItems.CreateColor("0,0,0,0");
             _keyBackgroundColor = CreateItems.CreateColor(config["keyColor"]);
             _barColor = CreateItems.CreateColor(config["barColor"]);
             _maxFPS = uint.Parse(config["maxFPS"]);
+
 
             //get background image if in config
             if (config["backgroundImage"] != "")
@@ -80,6 +103,9 @@ namespace KeyOverlay
             //create squares and add them to _staticDrawables list
             var outlineColor = CreateItems.CreateColor(config["borderColor"]);
             var keySize = int.Parse(config["keySize"]);
+            defaultBorderColor = outlineColor;
+            defaultKeySize = keySize;
+            minKeySize = (int)(keySize * 0.9);
             var margin = int.Parse(config["margin"]);
             _squareList = CreateItems.CreateKeys(keyAmount, _outlineThickness, keySize, _ratioX, _ratioY, margin,
                 _window, _keyBackgroundColor, outlineColor);
@@ -124,14 +150,15 @@ namespace KeyOverlay
             _window.SetFramerateLimit(_maxFPS);
 
             //Creating a sprite for the fading effect
-            var fadingList = Fading.GetBackgroundColorFadingTexture(_backgroundColor, _window.Size.X, _ratioY);
+/*            var fadingList = Fading.GetBackgroundColorFadingTexture(_backgroundColor, _window.Size.X, _ratioY);
             var fadingTexture = new RenderTexture(_window.Size.X, (uint)(255 * 2 * _ratioY));
             fadingTexture.Clear(Color.Transparent);
             if (_fading)
                 foreach (var sprite in fadingList)
                     fadingTexture.Draw(sprite);
             fadingTexture.Display();
-            var fadingSprite = new Sprite(fadingTexture.Texture);
+            var fadingSprite = new Sprite(fadingTexture.Texture);*/
+
 
 
             while (_window.IsOpen)
@@ -142,20 +169,37 @@ namespace KeyOverlay
                 foreach (var square in _squareList) square.FillColor = _keyBackgroundColor;
                 //if a key is being held, change the key bg and increment hold variable of key
                 foreach (var key in _keyList)
+                {
+
+                    var defaultPos = _squareList.ElementAt(_keyList.IndexOf(key)).Position;
+
                     if (key.isKey && Keyboard.IsKeyPressed(key.KeyboardKey) ||
                         !key.isKey && Mouse.IsButtonPressed(key.MouseButton))
                     {
                         key.Hold++;
-                        if(_keyText.ElementAt(_keyList.IndexOf(key)).FillColor != _pressFontColor)
+                        if (_keyText.ElementAt(_keyList.IndexOf(key)).FillColor != _pressFontColor)
                             _keyText.ElementAt(_keyList.IndexOf(key)).FillColor = _pressFontColor;
                         _squareList.ElementAt(_keyList.IndexOf(key)).FillColor = _barColor;
+                        _squareList.ElementAt(_keyList.IndexOf(key)).OutlineColor = _barColor;
+                        _squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(minKeySize, minKeySize);
+                        var sizeOffset = (AppWindow.instance.defaultKeySize - AppWindow.instance.minKeySize) / 2f;
+                        if (key.Hold==1)    
+                            _squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X + sizeOffset, defaultPos.Y + sizeOffset);
                     }
                     else
                     {
                         if (_keyText.ElementAt(_keyList.IndexOf(key)).FillColor != _fontColor)
+                        {
                             _keyText.ElementAt(_keyList.IndexOf(key)).FillColor = _fontColor;
+                            _squareList.ElementAt(_keyList.IndexOf(key)).OutlineColor = AppWindow.instance.defaultBorderColor;
+                        }
+                        _squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(defaultKeySize, defaultKeySize);
+                        var sizeOffset = (AppWindow.instance.defaultKeySize - AppWindow.instance.minKeySize) / 2f;
+                        if (key.Hold != 0)
+                            _squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X - sizeOffset , defaultPos.Y - sizeOffset);
                         key.Hold = 0;
                     }
+                }
 
                 MoveBars(_keyList, _squareList);
 
@@ -179,7 +223,7 @@ namespace KeyOverlay
                         _window.Draw(bar);
                 }
 
-                _window.Draw(fadingSprite);
+                //_window.Draw(fadingSprite);
 
                 _window.Display();
             }
@@ -206,9 +250,15 @@ namespace KeyOverlay
                     var rect = key.BarList.Last();
                     rect.Size = new Vector2f(rect.Size.X, rect.Size.Y + moveDist);
                 }
+                
 
                 foreach (var rect in key.BarList)
+                {
                     rect.Position = new Vector2f(rect.Position.X, rect.Position.Y - moveDist);
+/*                    var newCol = rect.FillColor;
+                    newCol.A -= (byte)10f;
+                    rect.FillColor = newCol;*/
+                }
                 if (key.BarList.Count > 0 && key.BarList.First().Position.Y + key.BarList.First().Size.Y < 0)
                     key.BarList.RemoveAt(0);
             }
