@@ -26,7 +26,11 @@ keySize - Changes the size of the key (excluding border).
 
 keyPressShrinkMult - Changes how much smaller the keys get on press
 
+sizeFrames - Amount of frames it takes for the size to fully change
+
 barSpeed - Adjusts the speed at which the bars are travelling upwards.
+
+barOffsetY - Offsets where the bar spawns above the key
 
 margin - Adjusts the margin of the keys from the sides.
 
