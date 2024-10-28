@@ -44,6 +44,10 @@ namespace KeyOverlay
         public Color defaultBorderColor;
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+        public int sizeFrames;
+        public int sizeDiff;
+        public int sizeSteps;
+        public int barOffsetY;
         public AppWindow(string configFileName)
         {
             instance = this;
@@ -52,6 +56,8 @@ namespace KeyOverlay
             var windowHeight = config["windowHeight"];
             var windowPosX = config["windowPosX"];
             var windowPosY = config["windowPosY"];
+             sizeFrames = int.Parse(config["sizeFrames"]);
+             barOffsetY = int.Parse(config["barOffsetY"]);
             _window = new RenderWindow(new VideoMode(uint.Parse(windowWidth!), uint.Parse(windowHeight!)),
                 "KeyOverlay", Styles.None);
 
@@ -175,6 +181,9 @@ namespace KeyOverlay
                 {
 
                     var defaultPos = _squareList.ElementAt(_keyList.IndexOf(key)).Position;
+                   sizeDiff = defaultKeySize - minKeySize;
+                     sizeSteps = sizeDiff / (sizeFrames == 0 ? 1 : sizeFrames);
+
 
                     if (key.isKey && Keyboard.IsKeyPressed(key.KeyboardKey) ||
                         !key.isKey && Mouse.IsButtonPressed(key.MouseButton))
@@ -184,10 +193,16 @@ namespace KeyOverlay
                             _keyText.ElementAt(_keyList.IndexOf(key)).FillColor = _pressFontColor;
                         _squareList.ElementAt(_keyList.IndexOf(key)).FillColor = _barColor;
                         _squareList.ElementAt(_keyList.IndexOf(key)).OutlineColor = _barColor;
-                        _squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(minKeySize, minKeySize);
-                        var sizeOffset = (AppWindow.instance.defaultKeySize - AppWindow.instance.minKeySize) / 2f;
-                        if (key.Hold==1)    
-                            _squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X + sizeOffset, defaultPos.Y + sizeOffset);
+                        //_squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(minKeySize, minKeySize);
+                        if (_squareList.ElementAt(_keyList.IndexOf(key)).Size.X > minKeySize)
+                        {
+                            _squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(_squareList.ElementAt(_keyList.IndexOf(key)).Size.X-sizeSteps, _squareList.ElementAt(_keyList.IndexOf(key)).Size.Y-sizeSteps);
+                            _squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X + sizeSteps/2f, defaultPos.Y + sizeSteps/2f);
+                        }
+                      
+                        var sizeOffset = (defaultKeySize - minKeySize) / 2f;
+                        //if (key.Hold==1)    
+                        //_squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X + sizeOffset, defaultPos.Y + sizeOffset);
                     }
                     else
                     {
@@ -196,10 +211,15 @@ namespace KeyOverlay
                             _keyText.ElementAt(_keyList.IndexOf(key)).FillColor = _fontColor;
                             _squareList.ElementAt(_keyList.IndexOf(key)).OutlineColor = AppWindow.instance.defaultBorderColor;
                         }
-                        _squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(defaultKeySize, defaultKeySize);
+                        //_squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(defaultKeySize, defaultKeySize);
+                        if (_squareList.ElementAt(_keyList.IndexOf(key)).Size.X < defaultKeySize)
+                        {
+                            _squareList.ElementAt(_keyList.IndexOf(key)).Size = new Vector2f(_squareList.ElementAt(_keyList.IndexOf(key)).Size.X+sizeSteps, _squareList.ElementAt(_keyList.IndexOf(key)).Size.Y+sizeSteps);
+                            _squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X - sizeSteps/2f, defaultPos.Y - sizeSteps/2f);
+                        }
                         var sizeOffset = (AppWindow.instance.defaultKeySize - AppWindow.instance.minKeySize) / 2f;
-                        if (key.Hold != 0)
-                            _squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X - sizeOffset , defaultPos.Y - sizeOffset);
+                       // if (key.Hold != 0)
+                         //   _squareList.ElementAt(_keyList.IndexOf(key)).Position = new Vector2f(defaultPos.X - sizeOffset , defaultPos.Y - sizeOffset);
                         key.Hold = 0;
                     }
                 }
