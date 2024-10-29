@@ -20,6 +20,7 @@ keyPressShrinkMult=0.9
 sizeFrames=5
 barSpeed=600
 barOffsetY=0
+barScaleMult=1
 margin=25
 outlineThickness=5
 fading=yes

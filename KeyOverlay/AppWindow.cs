@@ -48,6 +48,8 @@ namespace KeyOverlay
         public int sizeDiff;
         public int sizeSteps;
         public int barOffsetY;
+        public float barScaleMult;
+
         public AppWindow(string configFileName)
         {
             instance = this;
@@ -58,9 +60,11 @@ namespace KeyOverlay
             var windowPosY = config["windowPosY"];
              sizeFrames = int.Parse(config["sizeFrames"]);
              barOffsetY = int.Parse(config["barOffsetY"]);
+             barScaleMult = float.Parse(config["barScaleMult"]); 
             _window = new RenderWindow(new VideoMode(uint.Parse(windowWidth!), uint.Parse(windowHeight!)),
                 "KeyOverlay", Styles.None);
-
+            
+            
             //calculate screen ratio relative to original program size for easy resizing
             _ratioX = float.Parse(windowWidth) / 480f;
             _ratioY = float.Parse(windowHeight) / 960f;

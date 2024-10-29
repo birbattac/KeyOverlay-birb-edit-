@@ -15,8 +15,8 @@ namespace KeyOverlay
             "consolab.ttf")));
         public static RectangleShape CreateBar(RectangleShape square, int outlineThickness, float barSpeed)
         {
-            var rect = new RectangleShape(new Vector2f(AppWindow.instance.defaultKeySize + outlineThickness * 2, barSpeed));
-            rect.Position = new Vector2f(square.Position.X  - outlineThickness - AppWindow.instance.sizeSteps/2f,
+            var rect = new RectangleShape(new Vector2f(((AppWindow.instance.defaultKeySize + outlineThickness * 2) * AppWindow.instance.barScaleMult)+1, barSpeed));
+            rect.Position = new Vector2f(square.Position.X  - outlineThickness - AppWindow.instance.sizeSteps/2f - ((rect.Size.X - (AppWindow.instance.defaultKeySize + outlineThickness * 2))/2f),
                 square.Position.Y - AppWindow.instance.defaultKeySize - outlineThickness - AppWindow.instance.sizeSteps/2f - AppWindow.instance.barOffsetY);
             rect.FillColor = square.FillColor;
             return rect;
